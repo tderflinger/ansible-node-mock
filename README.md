@@ -1,6 +1,6 @@
 # ansible-node-mock
 
-Ansible playbook for provisioning a CentOS server with Node and an Nginx proxy.
+Ansible playbook for configuring a CentOS server with NodeJS and an Nginx proxy.
 
 For more information see my blog: https://www.tderflinger.com/en/ansible-node
 

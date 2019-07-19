@@ -1,0 +1,57 @@
+---
+- name: Start mock and some other stuff
+  hosts: mock
+  become: true
+  remote_user: root
+
+  vars:
+    key_file: /etc/nginx/ssl/nginx.key
+    cert_file: /etc/nginx/ssl/nginx.crt
+    conf_file: /etc/nginx/nginx.conf
+
+  tasks:
+    - name: Copy files
+      copy: src=mock/db.json dest=/home/centos
+
+    - name: Copy package.json
+      copy: src=mock/package.json dest=/home/centos
+
+    - name: Copy json-server-https
+      copy: src=mock/json-server-http.js dest=/home/centos
+
+    - name: NPM installation
+      shell: npm i
+      args:
+        chdir: /home/centos
+
+    - name: Install PM2
+      npm:
+        name: pm2
+        global: yes
+
+    - name: Create directories for certificates
+      file: path=/etc/nginx/ssl state=directory
+
+    - name: Copy TLS key
+      copy: src=files/nginx.key dest={{ key_file }} owner=root mode=0600
+
+    - name: Copy TLS certificate
+      copy: src=files/nginx.crt dest={{ cert_file }} owner=root mode=0600
+
+    - name: Copy Nginx config file
+      template: src=templates/nginx.conf.j2 dest={{ conf_file }}
+
+    - name: Remove nginx.default
+      file:
+        path: /etc/nginx/nginx.conf.default
+        state: absent
+
+    - name: Restart NGiNX
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Start Mock
+      shell: pm2 start json-server-http.js
+      args:
+        chdir: /home/centos

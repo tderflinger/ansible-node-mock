@@ -1,0 +1,13 @@
+---
+- name: Generate Nginx TLS certificates and keys
+  hosts: localhost
+
+  tasks:
+    - name: Generate OpenSSL private key
+      openssl_privatekey: path=files/nginx.key
+
+    - name: Generate OpenSSL Certificate Signing Request
+      openssl_csr: path=files/csr.csr  privatekey_path=files/nginx.key common_name=www.someorg.org
+
+    - name: Generate Self-signed certificate
+      openssl_certificate: path=files/nginx.crt privatekey_path=files/nginx.key csr_path=files/csr.csr provider=selfsigned

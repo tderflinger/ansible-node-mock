@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Tommy"
+    }
+  ],
+  "authentication": [
+    {
+      "strategy": "local",
+      "email": "tdx@x.com",
+      "password": "test",
+      "id": 1
+    },
+    {
+      "strategy": "local",
+      "email": "ff@me.com",
+      "password": "meme",
+      "id": 2
+    },
+    {
+      "strategy": "local",
+      "email": "karly@czechy.com",
+      "password": "czech",
+      "id": 3
+    },
+    {
+      "strategy": "local",
+      "email": "sorry@me.com",
+      "password": "dddtx",
+      "id": 4
+    }
+  ]
+}
